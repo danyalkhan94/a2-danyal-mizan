@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% from "formhelpers.html" import render_field %}
+
+{% block title %}
+{{ page_title  }}
+{%  endblock   %}
+
+{% block body %}
+<section class="hero is-fullheight is-dark is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-vcentered">
+        <div class="column is-6-desktop is-offset-3-desktop is-8-tablet is-offset-2-tablet">
+          <h2 class="title is-2">
+            {{ form_title }}
+          </h2>
+          <div class="box">
+            <form class="form" role="form" method="post" action="{{action}}" accept-charset="UTF-8">
+              {{ form.csrf_token }}
+              {% for field in form._fields.values() %}
+                {% if not field == form.csrf_token %}
+                  {{ render_field(field) }}
+                {% endif %}
+              {% endfor %}
+              <hr>
+              <p class="control">
+                <button class="button is-primary is-medium is-fullwidth">{{primary_button}}</button>
+              </p>
+            </form>
+          </div>
+          <p class="has-text-centered">
+            {% for _label, _href in links %}
+            <a href="{{_href}}">{{_label}}</a>
+              {% if (_label, _href) != links[-1] %}
+               | 
+              {% endif %}
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+{% endblock body %}
+      
+

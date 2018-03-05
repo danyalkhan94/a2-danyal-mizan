@@ -1,0 +1,10 @@
+Flask
+Flask-Cache
+Flask-Mail
+Flask-Sqlalchemy
+Flask-Security
+Flask-Bcrypt
+Flask-Login
+werkzeug
+WTForms
+itsdangerous

@@ -1,0 +1,32 @@
+{% macro render_field(field) %}
+  <label class="label" for="{{field.id}}">{{field.label.text}}</label>
+  <p class="control">
+  {{ field(class="input is-medium is-danger" if field.errors else "input is-medium")}}
+  {% if field.errors %}
+    <ul>
+    {% for error in field.errors %}
+      <li class="help is-danger">{{ error }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+  </p>
+{% endmacro %}
+
+
+{% macro flash_alerts() %}
+{% with messages = get_flashed_messages(with_categories=True) %}
+  {% if messages %}
+    <ul class="notifications">
+      {% for category, message in messages %}
+      <div class="notification is-{{category}}" role="alert">
+        <button type="button" class="delete" aria-label="Close">
+        </button>
+        {{message | safe}}
+      </div>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+{% endmacro %}
+
+

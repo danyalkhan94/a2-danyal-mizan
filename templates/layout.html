@@ -1,0 +1,90 @@
+{% from "formhelpers.html" import flash_alerts %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>{% block title %}Blog Space{% endblock %}</title>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+   <link rel="stylesheet" href="{{url_for('static', filename='css/bulma.css')}}">
+   <link rel="stylesheet" href="{{url_for('static', filename='css/animate.min.css')}}">
+   <style>
+   {% block style %}
+     section.column {
+        padding: 2em;
+     }
+     article.post {
+        margin: 2em auto;
+     }
+     span.category {
+        font-size: 1.5em;
+    }
+    article p {
+        margin-bottom: 0.5em;
+    }
+   {% endblock %}
+   </style>
+</head>
+<body>
+    <nav class="navbar is-light" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <!-- navbar items, navbar burger... -->
+        <a class="navbar-item" href="{{url_for('homepage')}}">Blogspace</a>
+        <div class="navbar-burger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <div class="navbar-menu">
+        <!-- navbar start, navbar end -->
+        <div class="navbar-start">
+          <!-- navbar items -->
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">Categories</a>
+            <div class="navbar-dropdown">
+              {% for item in g._categories %}
+              <a href="{{url_for('homepage', category=item.category)}}" class="navbar-item">{{item.category | title}}</a>
+              {% endfor %}
+            </div> <!-- navbar-dropdown -->
+          </div>
+          {% if current_user.is_authenticated %}
+          <a class="navbar-item" href="{{url_for('dashboard')}}">Dashboard</a>
+          {% endif %}
+          <a class="navbar-item">Search</a>
+          <a class="navbar-item">About</a>
+        </div>
+
+        <div class="navbar-end">
+          <!-- navbar items -->
+          {% if current_user.is_authenticated %}
+          <a class="navbar-item">
+            {% block user_logo %}
+            <figure class="image is-32x32">
+              <img src="{{current_user.logo}}" />
+            </figure>
+            {{current_user.firstname}} {{current_user.lastname}} 
+            {% endblock user_logo %}
+          </a>
+          <a class="navbar-item" href="{{url_for('logout')}}">Log Out</a>
+          {% else %}
+          <a class="navbar-item" href="{{url_for('login')}}">Log In</a>
+          <a class="navbar-item" href="{{url_for('signup')}}">Create Account</a>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+    <!-- OK -->
+    <section class="containers">
+    {{ flash_alerts() }}
+    {% block body %}
+    {% endblock body %}
+    </section>
+    
+
+    <footer>
+    </footer>
+    
+</body>
+</html>
+

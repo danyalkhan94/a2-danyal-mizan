@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block title %}{{post.title}}{% endblock %}
+
+
+{% block body %}
+  <div class="columns">
+    <section class="column">
+  
+    <article class="post">
+      <header>
+        <a href="#" ><h2 class="title is-2">{{post.title}}</h2></a>
+        <div class="meta level has-text-centered">
+          <time class="level-left" datetime="{{post.modified.strftime('%Y-%m-%d %H:%M:%S')}}">
+            <strong>{{post.modified.strftime('%B %d, %Y')}}</strong>
+          </time>
+          <a href="#" class="level-right author">
+            <span class="level-item author-name">{{post.user.firstname}} {{post.user.lastname}} </span>
+            <img class="level-item image is-64x64" src="{{post.user.logo}}" alt="" />
+          </a>
+        </div>
+      </header>
+      <a href="#" class="image"><img src="{{post.image_url}}" alt="" /></a>
+      <p class="post-text">{{post.text | safe}}</p>
+      <footer class="level has-text-centered">
+       <span class="category">Category: <a href="{{url_for('homepage', category=post.category)}}">{{post.category | title}}</a></span>
+       <ul class="level-right is-mobile">
+         <li class="level-item"><a href="#" ><span class="icon"><i class="fa fa-heart"></i></span> {{post.likes}}</a></li>
+         <li class="level-item"><a href="#" ><span class="icon"><i class="fa fa-eye"></i></span> {{post.views}}</a></li>
+       </ul>
+     </footer>
+    </article>
+    
+  </section>
+  <aside class="column is-one-quarter">
+    <h2 class="title is-3">Recent Posts</h2>
+    {% for post in g._recent_stories %}
+      <article>
+        <header>
+          <a href="{{url_for('view_post', link=post.link)}}" ><h5 class="title is-5">{{post.title}}</h5></a>
+        </header>
+        <figure class="image">
+          <a href="{{url_for('view_post', link=post.link)}}"><img src="{{post.image_url}}" alt="" /></a>
+        </figure>
+      </article>
+      <hr />
+    {% endfor %}
+    <h2 class="title is-3">Top Stories</h2>
+    {% for post in g._top_stories %}
+      <article>
+        <header>
+          <a href="{{url_for('view_post', link=post.link)}}" ><h5 class="title is-5">{{post.title}}</h5></a>
+        </header>
+        <figure class="image">
+          <a href="{{url_for('view_post', link=post.link)}}"><img src="{{post.image_url}}" alt="" /></a>
+        </figure>
+      </article>
+      <hr />
+    {% endfor %}
+    
+  </aside>
+</div>
+{% endblock body %}

@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <div class="columns">
+    <section class="column">
+  
+    {%- for post in posts.items %}
+      <article class="post card">
+        <header class="card-header">
+          <h2 class="card-header-title title is-2"><a href="{{url_for('view_post', link=post.link)}}" >{{post.title}}</a></h2>
+          
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-4">{{post.user.firstname}} {{post.user.lastname}}</p>
+              <p class="subtitle">
+                <time class="" datetime="{{post.modified.strftime('%Y-%m-%d %H:%M:%S')}}">
+                  <em>{{post.modified.strftime('%B %d, %Y')}}</em>
+                </time>
+              </p>
+            </div>
+            <div class="media-right">
+              <figure class="image is-64x64">
+                <img src="{{post.user.logo}}" alt="Author Logo" />
+              </figure>
+            </div>
+          </div>
+        </header>
+        <figure class="card-image">
+          <a href="{{url_for('view_post', link=post.link)}}" class="image"><img src="{{post.image_url}}" alt="" /></a>
+        </figure>
+        <p class="card-content">{{post.text | striptags | truncate(500)}}</p>
+        <footer class="level card-footer-item">
+         <div class="level-left">
+           <a href="{{url_for('view_post', link=post.link)}}" class="button is-primary is-outlined level-item">Continue Reading</a>
+         </div>
+         <span>Category: <a href="{{url_for('homepage', category=post.category)}}">{{post.category | title}}</a></span>
+         <ul class="level-right is-mobile">
+           <li class="level-item"><a href="#" ><span class="icon"><i class="fa fa-heart"></i></span> {{post.likes}}</a></li>
+           <li class="level-item"><a href="#" ><span class="icon"><i class="fa fa-eye"></i></span> {{post.views}}</a></li>
+         </ul>
+       </footer>
+      </article>
+    {%- endfor %}
+    
+    {% block pagination %}
+      {% if posts.page > 1 or posts.has_next %}
+      <!-- Pagination -->
+      <nav class="pagination is-centered is-mobile is-large">
+        {% if posts.has_prev %}
+        <a class="pagination-previous" href="{{url_for('homepage', category=category, page=posts.page-1)}}">Previous Page</a>
+        {% else %}
+        <a class="pagination-previous is-disabled">Previous Page</a>
+        {% endif %}
+        
+        {% if posts.has_next %}
+        <a class="pagination-next" href="{{url_for('homepage', category=category, page=posts.page+1)}}">Next Page</a>
+        {% else %}
+        <a class="pagination-next is-disabled" href="#">Next Page</a>
+        {% endif %}
+      </nav>
+      {% endif %}
+    {% endblock %}
+    
+  </section>
+  <aside class="column is-one-quarter">
+    <h2 class="title is-3">Recent Posts</h2>
+    {% for post in g._recent_stories %}
+      <article>
+        <header>
+          <a href="{{url_for('view_post', link=post.link)}}" ><h5 class="title is-5">{{post.title}}</h5></a>
+        </header>
+        <figure class="image">
+          <a href="{{url_for('view_post', link=post.link)}}"><img src="{{post.image_url}}" alt="" /></a>
+        </figure>
+      </article>
+      <hr />
+    {% endfor %}
+    <h2 class="title is-3">Top Stories</h2>
+    {% for post in g._top_stories %}
+      <article>
+        <header>
+          <a href="{{url_for('view_post', link=post.link)}}" ><h5 class="title is-5">{{post.title}}</h5></a>
+        </header>
+        <figure class="image">
+          <a href="{{url_for('view_post', link=post.link)}}"><img src="{{post.image_url}}" alt="" /></a>
+        </figure>
+      </article>
+      <hr />
+    {% endfor %}
+    
+  </aside>
+</div>
+{% endblock body %}
