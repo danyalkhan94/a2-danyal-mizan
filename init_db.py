@@ -10,7 +10,7 @@ from blogspace import app, db, User, Post
 
 def gen_link(string, date, maxlen):
     '''
-    creates an url identifier from given string and date object
+    creates an url identifier from given string and date objects
     '''
     p = date.strftime("%s")
     t = '-'.join(string.split())
