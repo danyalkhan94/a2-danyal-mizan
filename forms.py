@@ -10,16 +10,3 @@ class RegistrationForm(FlaskForm):
     password  = PasswordField('Password',        [ InputRequired(), Length(min=5, max=256)])        
     confirm   = PasswordField('Repeat Password', [ EqualTo('password', message="Passwords don't match") ])
 
-
-class LoginForm(FlaskForm):
-    email    = EmailField('Email Address',  [ InputRequired(), Email() ])
-    password = PasswordField('Password',    [ InputRequired(), Length(min=5, max=256) ])
-                                              
-                                              
-class EmailForm(FlaskForm):
-    email = EmailField('Email Address', [ InputRequired(), Email() ])
-    
-class ResetPasswordForm(FlaskForm):
-    password  = PasswordField('New Password',    [ InputRequired(), Length(min=5, max=256) ])
-    confirm   = PasswordField('Repeat Password', [ EqualTo('password', message="Passwords don't match") ])
-    
